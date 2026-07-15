@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --heather: #6294b5;
+    --heather-light: #b5cfe2;
+    --heather-dark: #386285;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-white text-stone-800 font-sans;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  ::selection {
+    background: #b5cfe2;
+    color: #4a304a;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply relative text-stone-700 font-sans font-medium text-[0.9rem] tracking-wide
+           transition-colors duration-[400ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+           hover:text-heather-700;
+  }
+
+  .heather-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-heather-300 to-transparent;
+  }
+
+  .section-label {
+    @apply text-heather-600 font-sans text-xs font-medium tracking-[0.2em] uppercase;
+  }
+
+  /* Organic blob button — pale heather → saturates on hover */
+  .blob-btn {
+    @apply relative inline-flex items-center justify-center
+           bg-heather-100 text-heather-800
+           px-8 py-3.5 font-medium text-sm tracking-wide
+           transition-all duration-500;
+    border-radius: 62% 38% 54% 46% / 44% 58% 42% 56%;
+  }
+  .blob-btn:hover {
+    @apply bg-heather-400 text-white;
+    border-radius: 48% 52% 60% 40% / 56% 44% 58% 42%;
+  }
+
+  /* Organic blob — nav pill variant (smaller) */
+  .blob-pill {
+    @apply relative inline-flex items-center justify-center
+           bg-heather-100 text-heather-800
+           px-4 py-1.5 font-medium text-[0.875rem] tracking-wide
+           transition-all duration-500;
+    border-radius: 58% 42% 52% 48% / 50% 62% 38% 50%;
+  }
+  .blob-pill:hover,
+  .blob-pill.active {
+    @apply bg-heather-400 text-white;
+    border-radius: 44% 56% 62% 38% / 60% 40% 56% 44%;
+  }
+  .blob-pill.active:hover {
+    @apply bg-heather-500 text-white;
+  }
+
+  /* Organic tag — for technique pills */
+  .blob-tag {
+    @apply inline-block px-4 py-2 text-sm font-medium text-heather-800
+           bg-heather-50 border border-heather-200
+           transition-all duration-500 cursor-default;
+  }
+  .blob-tag:hover {
+    @apply bg-heather-200 border-heather-400 text-heather-900;
+  }
+}
