@@ -10,6 +10,27 @@ plastyczne i rękodzielnicze.
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Framer Motion](https://www.framer.com/motion/)
+- [Prisma](https://www.prisma.io/) + [Supabase](https://supabase.com/) (Postgres, Auth)
+
+## Konfiguracja bazy danych (Supabase)
+
+Strona wymaga działającej bazy Postgres, zanim `npm run dev`/`npm run build` zadziała.
+
+1. Utwórz projekt na [supabase.com](https://supabase.com) (region np. Frankfurt — najbliżej PL)
+2. **Project Settings → Database → Connection string**:
+   - skopiuj **Transaction pooler** (port 6543) → `DATABASE_URL` w `.env`
+   - skopiuj **Direct connection** (port 5432) → `DIRECT_URL` w `.env`
+3. **Project Settings → API**:
+   - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+   - `anon public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `service_role` key → `SUPABASE_SERVICE_ROLE_KEY` (tylko serwer, nigdy w kliencie!)
+4. **Authentication → Users → Add user** — utwórz konto administratora (e-mail + hasło), którym będziesz się logować do `/admin`
+5. Uruchom migracje i seed:
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
 
 ## Rozwój lokalny
 
@@ -18,7 +39,7 @@ npm install
 npm run dev
 ```
 
-Otwórz [http://localhost:3000](http://localhost:3000) w przeglądarce.
+Otwórz [http://localhost:3000](http://localhost:3000) w przeglądarce, panel administracyjny pod [http://localhost:3000/admin](http://localhost:3000/admin/login).
 
 ## Struktura projektu
 

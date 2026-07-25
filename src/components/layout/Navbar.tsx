@@ -3,7 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { workshops } from "@/lib/workshops";
+
+export interface NavWorkshop {
+  slug: string;
+  shortTitle: string;
+}
 
 const categories = [
   { label: "Wszystkie warsztaty", href: "/warsztaty" },
@@ -33,7 +37,7 @@ const megaVariants = {
   },
 };
 
-export default function Navbar() {
+export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
   const [megaOpen, setMegaOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("Warsztaty i kursy");
   const [mobileOpen, setMobileOpen] = useState(false);

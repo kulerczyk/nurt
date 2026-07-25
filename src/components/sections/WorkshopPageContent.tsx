@@ -5,7 +5,6 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Workshop } from "@/lib/workshops";
-import { workshops } from "@/lib/workshops";
 
 function FadeUp({
   children,
@@ -55,11 +54,10 @@ function OrganicDivider({ id }: { id: string }) {
 
 interface Props {
   workshop: Workshop;
+  otherWorkshops: Workshop[];
 }
 
-export default function WorkshopPageContent({ workshop }: Props) {
-  const otherWorkshops = workshops.filter((w) => w.slug !== workshop.slug).slice(0, 3);
-
+export default function WorkshopPageContent({ workshop, otherWorkshops }: Props) {
   return (
     <article className="pt-16">
       {/* Hero */}

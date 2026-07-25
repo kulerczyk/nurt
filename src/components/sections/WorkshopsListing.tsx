@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { workshops } from "@/lib/workshops";
+import type { Workshop } from "@/lib/workshops";
 
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,7 +22,7 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-export default function WorkshopsListing() {
+export default function WorkshopsListing({ workshops }: { workshops: Workshop[] }) {
   return (
     <div className="pt-28 pb-24">
       <div className="max-w-6xl mx-auto px-6">

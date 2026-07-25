@@ -1,0 +1,36 @@
+// Prisma schema — NURT Warsztaty Artystyczne
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Treść pojedynczego warsztatu — odpowiada strukturze dotychczasowego
+// src/lib/workshops.ts, przeniesionej do bazy, by dało się nią zarządzać
+// z panelu admina bez zmian w kodzie.
+model Workshop {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  shortTitle    String
+  title         String
+  tagline       String
+  image         String
+  imageAlt      String
+  imageBg       String? // "light" | "dark"
+  imagePosition String?
+  color         String
+  intro         String   @db.Text
+  sections      Json // [{ heading?: string, body: string }]
+  closing       String   @db.Text
+  highlights    String[]
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("workshops")
+}

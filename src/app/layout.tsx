@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { getAllWorkshops } from "@/lib/workshops";
 
 export const metadata: Metadata = {
   title: "NURT — Warsztaty Artystyczne",
@@ -15,15 +16,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const workshops = await getAllWorkshops();
+  const navWorkshops = workshops.map((w) => ({ slug: w.slug, shortTitle: w.shortTitle }));
+
   return (
     <html lang="pl">
       <body className="min-h-screen flex flex-col bg-white">
-        <Navbar />
+        <Navbar workshops={navWorkshops} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
