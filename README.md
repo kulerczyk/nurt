@@ -11,6 +11,7 @@ plastyczne i rękodzielnicze.
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [Prisma](https://www.prisma.io/) + [Supabase](https://supabase.com/) (Postgres, Auth)
+- [Resend](https://resend.com/) (e-maile transakcyjne) + [Zod](https://zod.dev/) (walidacja formularzy)
 
 ## Konfiguracja bazy danych (Supabase)
 
@@ -33,6 +34,19 @@ Strona wymaga działającej bazy Postgres, zanim `npm run dev`/`npm run build` z
 npm run db:migrate
 npm run db:seed
 ```
+
+## Konfiguracja e-maili (Resend) — opcjonalna, ale zalecana
+
+Formularze kontaktowe (`/kontakt` + widget "Zadaj pytanie" na stronach warsztatów)
+zapisują zapytania do bazy niezależnie od tego, czy e-mail jest skonfigurowany —
+**bez Resend nic się nie wywali**, po prostu nie wyślą się powiadomienia i
+w logach serwera zobaczysz ostrzeżenie. Żeby włączyć e-maile:
+
+1. Załóż darmowe konto na [resend.com](https://resend.com) i wygeneruj klucz API (**API Keys → Create API Key**)
+2. Wklej go jako `RESEND_API_KEY` w `.env`
+3. Ustaw `CONTACT_ADMIN_EMAIL` na adres, na który mają przychodzić powiadomienia o nowych zapytaniach (to Twoja skrzynka)
+4. Do testów lokalnych możesz zostawić `CONTACT_FROM_EMAIL="NURT <onboarding@resend.dev>"` — to testowy adres Resend, działa od razu, ale wysyła tylko na adres e-mail, którym zalogowałeś się do Resend
+5. Przed produkcją: zweryfikuj własną domenę w Resend (**Domains → Add Domain**, kilka wpisów DNS) i zmień `CONTACT_FROM_EMAIL` na np. `"NURT <kontakt@twojadomena.pl>"` — inaczej maile do klientów będą trafiać do spamu albo w ogóle się nie wysyłać
 
 ## Rozwój lokalny
 

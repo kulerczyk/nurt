@@ -5,6 +5,8 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Workshop } from "@/lib/workshops";
+import AskQuestionWidget from "@/components/shared/AskQuestionWidget";
+import BookingWidget from "@/components/shared/BookingWidget";
 
 function FadeUp({
   children,
@@ -52,12 +54,24 @@ function OrganicDivider({ id }: { id: string }) {
   );
 }
 
+export interface NextSessionInfo {
+  id: string;
+  startAtISO: string;
+  spotsLeft: number;
+  location: string | null;
+}
+
+function formatSessionDate(date: Date): string {
+  return new Intl.DateTimeFormat("pl-PL", { weekday: "long", day: "2-digit", month: "long", hour: "2-digit", minute: "2-digit" }).format(date);
+}
+
 interface Props {
   workshop: Workshop;
   otherWorkshops: Workshop[];
+  nextSession: NextSessionInfo | null;
 }
 
-export default function WorkshopPageContent({ workshop, otherWorkshops }: Props) {
+export default function WorkshopPageContent({ workshop, otherWorkshops, nextSession }: Props) {
   return (
     <article className="pt-16">
       {/* Hero */}
@@ -182,16 +196,43 @@ export default function WorkshopPageContent({ workshop, otherWorkshops }: Props)
                     </defs>
                   </svg>
 
-                  <Link href="/kontakt" className="blob-btn w-full justify-center text-sm">
-                    Zapisz się na warsztat
-                  </Link>
+                  {nextSession ? (
+                    <div className="rounded-2xl bg-white border border-heather-200 p-4 mb-3">
+                      <span className="text-xs font-medium text-heather-600 uppercase tracking-wide">
+                        Najbliższy termin
+                      </span>
+                      <p className="font-serif text-lg text-stone-800 mt-1.5 capitalize">
+                        {formatSessionDate(new Date(nextSession.startAtISO))}
+                      </p>
+                      {nextSession.location && (
+                        <p className="text-xs text-stone-400 mt-0.5">{nextSession.location}</p>
+                      )}
+                      <p className="text-xs text-stone-400 mt-1 mb-4">
+                        {nextSession.spotsLeft} wolnych miejsc
+                      </p>
+                      <BookingWidget
+                        sessionId={nextSession.id}
+                        workshopTitle={workshop.title}
+                        whenLabel={formatSessionDate(new Date(nextSession.startAtISO))}
+                        spotsLeft={nextSession.spotsLeft}
+                      />
+                    </div>
+                  ) : (
+                    <div className="rounded-2xl bg-white border border-heather-100 p-4 mb-3 text-center">
+                      <p className="text-sm text-stone-500">
+                        Aktualnie brak zaplanowanych terminów tego warsztatu.
+                      </p>
+                      <Link href="/grafik" className="text-xs text-heather-700 font-medium hover:underline mt-1.5 inline-block">
+                        Zobacz pełny grafik →
+                      </Link>
+                    </div>
+                  )}
 
-                  <p className="mt-3 text-center text-xs text-stone-400">
-                    Masz pytania?{" "}
-                    <Link href="/kontakt" className="text-heather-600 hover:underline">
-                      Napisz do nas
-                    </Link>
-                  </p>
+                  <AskQuestionWidget
+                    workshopSlug={workshop.slug}
+                    workshopTitle={workshop.title}
+                    className="w-full"
+                  />
                 </div>
               </div>
             </FadeUp>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getWorkshop, getAllSlugs, getOtherWorkshops } from "@/lib/workshops";
+import { getNextSessionForWorkshop } from "@/lib/sessions";
 import WorkshopPageContent from "@/components/sections/WorkshopPageContent";
 import type { Metadata } from "next";
 
@@ -29,7 +30,25 @@ export default async function WorkshopPage({ params }: Props) {
   const workshop = await getWorkshop(slug);
   if (!workshop) notFound();
 
-  const otherWorkshops = await getOtherWorkshops(slug, 3);
+  const [otherWorkshops, nextSession] = await Promise.all([
+    getOtherWorkshops(slug, 3),
+    getNextSessionForWorkshop(slug),
+  ]);
 
-  return <WorkshopPageContent workshop={workshop} otherWorkshops={otherWorkshops} />;
+  const nextSessionData = nextSession
+    ? {
+        id: nextSession.id,
+        startAtISO: nextSession.startAt.toISOString(),
+        spotsLeft: nextSession.spotsLeft,
+        location: nextSession.location,
+      }
+    : null;
+
+  return (
+    <WorkshopPageContent
+      workshop={workshop}
+      otherWorkshops={otherWorkshops}
+      nextSession={nextSessionData}
+    />
+  );
 }

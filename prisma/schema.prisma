@@ -32,5 +32,92 @@ model Workshop {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  sessions WorkshopSession[]
+
   @@map("workshops")
+}
+
+enum SessionStatus {
+  SCHEDULED
+  CANCELLED
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+// Konkretny termin warsztatu (data + pojemność) — jeden Workshop może mieć
+// wiele terminów w grafiku. Tworzone i zarządzane z panelu admina.
+model WorkshopSession {
+  id         String        @id @default(cuid())
+  workshop   Workshop      @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  workshopId String
+  startAt    DateTime
+  endAt      DateTime?
+  capacity   Int           @default(10)
+  location   String?
+  notes      String?
+  status     SessionStatus @default(SCHEDULED)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  bookings Booking[]
+
+  @@map("workshop_sessions")
+  @@index([startAt])
+  @@index([workshopId])
+}
+
+// Rezerwacja miejsca na konkretny termin. Bez przedpłaty na tym etapie —
+// status CONFIRMED = potwierdzone miejsce, płatność ustalana poza systemem.
+model Booking {
+  id        String        @id @default(cuid())
+  session   WorkshopSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId String
+  name      String
+  email     String
+  phone     String?
+  seats     Int           @default(1)
+  status    BookingStatus @default(CONFIRMED)
+  notes     String?       @db.Text
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("bookings")
+  @@index([sessionId])
+  @@index([status])
+}
+
+enum InquiryType {
+  INDIVIDUAL
+  CORPORATE
+}
+
+enum InquiryStatus {
+  NEW
+  ANSWERED
+}
+
+// Zapytania z formularzy kontaktowych — widget "Zadaj pytanie" na stronach
+// warsztatów (INDIVIDUAL) oraz formularz grupowy/firmowy (CORPORATE).
+model Inquiry {
+  id            String        @id @default(cuid())
+  type          InquiryType   @default(INDIVIDUAL)
+  status        InquiryStatus @default(NEW)
+  name          String
+  email         String
+  phone         String?
+  message       String        @db.Text
+  workshopSlug  String?
+  workshopTitle String?
+  companyName   String?
+  groupSize     Int?
+  preferredDate String?
+  budget        String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("inquiries")
+  @@index([status])
 }

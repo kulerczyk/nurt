@@ -8,6 +8,7 @@ export interface WorkshopSection {
 }
 
 export interface Workshop {
+  id: string;
   slug: string;
   shortTitle: string;
   title: string;
@@ -27,6 +28,7 @@ export interface Workshop {
 // komponenty nie muszą znać szczegółów kolumn/typów Prisma.
 function toWorkshop(row: WorkshopRow): Workshop {
   return {
+    id: row.id,
     slug: row.slug,
     shortTitle: row.shortTitle,
     title: row.title,

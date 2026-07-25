@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/admin/actions";
+import { countNewInquiries } from "@/lib/inquiries";
+import AdminNav from "@/components/admin/AdminNav";
 
 export default async function AdminDashboardLayout({
   children,
@@ -9,14 +11,17 @@ export default async function AdminDashboardLayout({
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const newInquiriesCount = await countNewInquiries();
 
   return (
     <div className="min-h-screen bg-heather-50/40">
       <header className="bg-white border-b border-heather-100">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/admin" className="font-serif text-lg font-semibold text-stone-900 tracking-widest">
+        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+          <Link href="/admin" className="font-serif text-lg font-semibold text-stone-900 tracking-widest whitespace-nowrap">
             NURT <span className="text-heather-500 font-sans text-xs font-medium tracking-wide align-middle ml-1">panel</span>
           </Link>
+
+          <AdminNav newInquiriesCount={newInquiriesCount} />
 
           <div className="flex items-center gap-4">
             {user?.email && <span className="text-sm text-stone-500 hidden sm:inline">{user.email}</span>}
