@@ -17,10 +17,12 @@ plastyczne i rękodzielnicze.
 Strona wymaga działającej bazy Postgres, zanim `npm run dev`/`npm run build` zadziała.
 
 1. Utwórz projekt na [supabase.com](https://supabase.com) (region np. Frankfurt — najbliżej PL)
-2. **Project Settings → Database → Connection string**:
-   - skopiuj **Transaction pooler** (port 6543) → `DATABASE_URL` w `.env`
-   - skopiuj **Direct connection** (port 5432) → `DIRECT_URL` w `.env`
-3. **Project Settings → API**:
+2. W panelu projektu kliknij zielony przycisk **Connect** (górna belka, przy nazwie projektu). Otworzy się okno z zakładkami różnych typów połączenia:
+   - zakładka **Transaction pooler** (port `6543`) — skopiuj connection string → wklej jako `DATABASE_URL` w `.env`
+   - zakładka **Session pooler** (port `5432`) — skopiuj connection string → wklej jako `DIRECT_URL` w `.env`
+   - w skopiowanym stringu zamień `[YOUR-PASSWORD]` na hasło bazy, które ustawiłeś przy tworzeniu projektu (jeśli je zapomniałeś, możesz je zresetować w **Project Settings → Database → Database password**)
+   - ⚠️ Nie używaj zakładki **Direct connection** (host `db.<ref>.supabase.co`) lokalnie/w CI bez wsparcia IPv6 — połączenie może się nie udać (`P1001`). **Session pooler** działa zawsze po IPv4 i jest w pełni wystarczający dla migracji Prismy.
+3. **Project Settings → API** (lub **Project Settings → Data API**, w zależności od wersji dashboardu):
    - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
    - `anon public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `service_role` key → `SUPABASE_SERVICE_ROLE_KEY` (tylko serwer, nigdy w kliencie!)
