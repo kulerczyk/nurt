@@ -1,7 +1,7 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 
-// Singleton przez globalThis — zapobiega tworzeniu nowych połączeń
+// Singleton przez globalThis - zapobiega tworzeniu nowych połączeń
 // przy każdym hot-reloadzie w trybie dev (typowy problem Next.js + Prisma).
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 

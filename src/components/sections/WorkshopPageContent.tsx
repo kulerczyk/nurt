@@ -84,7 +84,7 @@ export default function WorkshopPageContent({ workshop, otherWorkshops, nextSess
           className={workshop.imageBg === "light" ? "object-contain object-center p-8 md:p-16" : "object-cover object-center"}
           style={workshop.imagePosition ? { objectPosition: workshop.imagePosition } : {}}
         />
-        {/* Gradient — jasne tło ma delikatniejszy overlay */}
+        {/* Gradient - jasne tło ma delikatniejszy overlay */}
         {workshop.imageBg === "light" ? (
           <>
             <div className="absolute inset-0 bg-gradient-to-t from-stone-50 via-stone-50/60 to-transparent" />
@@ -134,7 +134,7 @@ export default function WorkshopPageContent({ workshop, otherWorkshops, nextSess
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
-          {/* Main text — 2 cols wide */}
+          {/* Main text - 2 cols wide */}
           <div className="lg:col-span-2">
 
             {/* Intro */}
@@ -168,7 +168,7 @@ export default function WorkshopPageContent({ workshop, otherWorkshops, nextSess
             </FadeUp>
           </div>
 
-          {/* Sidebar — 1 col */}
+          {/* Sidebar - 1 col */}
           <div className="space-y-8">
 
             {/* What you'll learn */}

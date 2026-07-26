@@ -19,6 +19,7 @@ export const workshopSchema = z.object({
   imageBg: z.enum(["light", "dark", ""]).optional().transform((v) => (v ? v : undefined)),
   imagePosition: z.string().trim().optional().transform((v) => (v ? v : undefined)),
   color: z.string().trim().min(1, "Wybierz kolor akcentu."),
+  category: z.enum(["WARSZTAT", "KURS_CERTYFIKOWANY", "EVENT"]).default("WARSZTAT"),
   intro: z.string().trim().min(10, "Wstęp jest za krótki."),
   sections: z.array(workshopSectionSchema).min(1, "Dodaj przynajmniej jedną sekcję opisu."),
   closing: z.string().trim().min(5, "Podaj krótkie podsumowanie."),

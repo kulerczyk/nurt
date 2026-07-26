@@ -34,7 +34,7 @@ function toProduct(row: ProductRow): Product {
   };
 }
 
-// cache() memoizuje w ramach jednego requestu (RSC) — bezpieczne przy
+// cache() memoizuje w ramach jednego requestu (RSC) - bezpieczne przy
 // wielokrotnym odczycie tych samych danych na jednej stronie.
 export const getActiveProducts = cache(async (): Promise<Product[]> => {
   const rows = await prisma.product.findMany({
@@ -105,7 +105,7 @@ export async function countOrderItemsForProduct(id: string): Promise<number> {
   return prisma.orderItem.count({ where: { productId: id } });
 }
 
-// Zmniejsza stan magazynowy — używane przy oznaczaniu zamówienia jako opłacone.
+// Zmniejsza stan magazynowy - używane przy oznaczaniu zamówienia jako opłacone.
 // Bezpieczne wielokrotne wywołanie: jeśli stock jest null (brak śledzenia), nic nie robi.
 export async function decrementStock(productId: string, quantity: number): Promise<void> {
   await prisma.product.updateMany({

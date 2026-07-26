@@ -6,8 +6,8 @@ import { submitInquiry, type InquiryFormState } from "@/app/(site)/kontakt/actio
 const budgetOptions = [
   { value: "", label: "Wybierz zakres (opcjonalnie)" },
   { value: "do 2000 zł", label: "do 2000 zł" },
-  { value: "2000–5000 zł", label: "2000–5000 zł" },
-  { value: "5000–10000 zł", label: "5000–10000 zł" },
+  { value: "2000-5000 zł", label: "2000-5000 zł" },
+  { value: "5000-10000 zł", label: "5000-10000 zł" },
   { value: "ponad 10000 zł", label: "ponad 10000 zł" },
   { value: "nie wiem", label: "Nie wiem / proszę o kontakt" },
 ];
@@ -59,7 +59,7 @@ export default function ContactForm({
           Wiadomość wysłana
         </h3>
         <p className="text-sm text-stone-500 max-w-sm mx-auto">
-          Dziękujemy za kontakt — odpowiemy najszybciej, jak możemy, zwykle w ciągu 1–2 dni roboczych.
+          Dziękujemy za kontakt - odpowiemy najszybciej, jak możemy, zwykle w ciągu 1-2 dni roboczych.
         </p>
       </div>
     );
@@ -149,7 +149,7 @@ export default function ContactForm({
           rows={compact ? 3 : 5}
           className={inputClasses}
           placeholder={type === "CORPORATE"
-            ? "Opowiedz nam o Waszym wydarzeniu — okazja, oczekiwania, cokolwiek, co pomoże nam przygotować dobrą propozycję."
+            ? "Opowiedz nam o Waszym wydarzeniu - okazja, oczekiwania, cokolwiek, co pomoże nam przygotować dobrą propozycję."
             : "Napisz, co chciałbyś/chciałabyś wiedzieć…"}
         />
       </div>

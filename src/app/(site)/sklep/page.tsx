@@ -5,7 +5,7 @@ import { getActiveProducts } from "@/lib/products";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Sklep — NURT Warsztaty Artystyczne",
+  title: "Sklep",
   description: "Vouchery podarunkowe na warsztaty oraz produkty z pracowni NURT.",
 };
 

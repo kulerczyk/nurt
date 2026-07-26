@@ -41,7 +41,7 @@ function withAvailability(
   };
 }
 
-// Publiczny grafik — tylko przyszłe, zaplanowane terminy, posortowane chronologicznie.
+// Publiczny grafik - tylko przyszłe, zaplanowane terminy, posortowane chronologicznie.
 export async function getUpcomingSessions(): Promise<UpcomingSession[]> {
   const rows = await prisma.workshopSession.findMany({
     where: { status: "SCHEDULED", startAt: { gte: new Date() } },
@@ -54,7 +54,7 @@ export async function getUpcomingSessions(): Promise<UpcomingSession[]> {
   return rows.map(withAvailability);
 }
 
-// Najbliższy zaplanowany termin dla konkretnego warsztatu — używane w karcie
+// Najbliższy zaplanowany termin dla konkretnego warsztatu - używane w karcie
 // "Najbliższy termin" na podstronie warsztatu.
 export async function getNextSessionForWorkshop(workshopSlug: string): Promise<UpcomingSession | undefined> {
   const row = await prisma.workshopSession.findFirst({
@@ -79,7 +79,7 @@ export async function getSessionById(id: string): Promise<UpcomingSession | unde
   return row ? withAvailability(row) : undefined;
 }
 
-// Panel admina — wszystkie terminy (też przeszłe/anulowane), z liczbą rezerwacji.
+// Panel admina - wszystkie terminy (też przeszłe/anulowane), z liczbą rezerwacji.
 export async function getAllSessionsForAdmin() {
   const rows = await prisma.workshopSession.findMany({
     orderBy: { startAt: "desc" },

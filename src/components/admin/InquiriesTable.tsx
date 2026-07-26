@@ -103,7 +103,7 @@ export default function InquiriesTable({ inquiries }: { inquiries: Inquiry[] }) 
   if (inquiries.length === 0) {
     return (
       <div className="bg-white rounded-3xl border border-heather-100 p-12 text-center">
-        <p className="text-stone-400 text-sm">Brak wiadomości — nowe zapytania z formularzy pojawią się tutaj.</p>
+        <p className="text-stone-400 text-sm">Brak wiadomości - nowe zapytania z formularzy pojawią się tutaj.</p>
       </div>
     );
   }

@@ -13,7 +13,7 @@ function revalidateOrderPages() {
   revalidatePath("/sklep");
 }
 
-// Ręczne oznaczenie jako opłacone — np. gdy klient zapłacił przelewem bezpośrednim
+// Ręczne oznaczenie jako opłacone - np. gdy klient zapłacił przelewem bezpośrednim
 // zamiast przez P24. Korzysta z tego samego, idempotentnego markOrderPaid(), więc
 // vouchery i stan magazynowy są obsłużone identycznie jak przy prawdziwej płatności.
 export async function markOrderPaidManuallyAction(id: string): Promise<ActionResult> {

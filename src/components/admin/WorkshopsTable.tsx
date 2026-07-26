@@ -5,12 +5,18 @@ import Link from "next/link";
 import { deleteWorkshopAction } from "@/app/admin/(dashboard)/warsztaty/actions";
 import type { Workshop } from "@/lib/workshops";
 
-// Tailwind musi widzieć pełne nazwy klas w kodzie źródłowym, żeby je wygenerować —
+// Tailwind musi widzieć pełne nazwy klas w kodzie źródłowym, żeby je wygenerować -
 // stąd mapa zamiast `bg-${w.color}` (dynamiczny string nie zadziała z JIT).
 const colorDotClass: Record<string, string> = {
   "heather-400": "bg-heather-400",
   "heather-500": "bg-heather-500",
   "heather-600": "bg-heather-600",
+};
+
+const categoryLabel: Record<string, string> = {
+  WARSZTAT: "Warsztat",
+  KURS_CERTYFIKOWANY: "Kurs certyfikowany",
+  EVENT: "Event",
 };
 
 export default function WorkshopsTable({ workshops }: { workshops: Workshop[] }) {
@@ -41,6 +47,7 @@ export default function WorkshopsTable({ workshops }: { workshops: Workshop[] })
             <tr className="border-b border-heather-100 text-left text-stone-400 text-xs uppercase tracking-wide">
               <th className="px-6 py-3 font-medium">Nazwa</th>
               <th className="px-6 py-3 font-medium">Slug</th>
+              <th className="px-6 py-3 font-medium">Sekcja</th>
               <th className="px-6 py-3 font-medium">Kolor</th>
               <th className="px-6 py-3 font-medium text-right">Akcje</th>
             </tr>
@@ -50,6 +57,7 @@ export default function WorkshopsTable({ workshops }: { workshops: Workshop[] })
               <tr key={w.id} className="border-b border-heather-50 last:border-0 hover:bg-heather-50/50 transition-colors duration-200">
                 <td className="px-6 py-3.5 font-medium text-stone-800">{w.shortTitle}</td>
                 <td className="px-6 py-3.5 text-stone-400 font-mono text-xs">{w.slug}</td>
+                <td className="px-6 py-3.5 text-stone-500">{categoryLabel[w.category] ?? w.category}</td>
                 <td className="px-6 py-3.5">
                   <span className={`inline-block w-3 h-3 rounded-full ${colorDotClass[w.color] ?? "bg-heather-400"}`} />
                 </td>

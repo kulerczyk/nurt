@@ -33,7 +33,7 @@ export type CreateOrderResult =
       productName?: string;
     };
 
-// Nigdy nie ufamy cenom/ilościom przysłanym z przeglądarki — wszystko przeliczane
+// Nigdy nie ufamy cenom/ilościom przysłanym z przeglądarki - wszystko przeliczane
 // od zera na podstawie aktualnego stanu produktów w bazie.
 export async function createPendingOrder(input: CreateOrderInput): Promise<CreateOrderResult> {
   if (input.items.length === 0) return { ok: false, reason: "EMPTY_CART" };
@@ -137,8 +137,8 @@ export async function markOrderPaid(orderId: string, p24OrderId: string): Promis
       }
     } else {
       // Best-effort: jeśli w międzyczasie zabrakło towaru (np. dwie równoczesne
-      // płatności za ostatnią sztukę), zamówienie i tak zostaje PAID — pieniądze
-      // już wpłynęły — a admin dostaje sygnał w notatce do ręcznej obsługi.
+      // płatności za ostatnią sztukę), zamówienie i tak zostaje PAID - pieniądze
+      // już wpłynęły - a admin dostaje sygnał w notatce do ręcznej obsługi.
       await decrementStock(item.productId, item.quantity);
     }
   }

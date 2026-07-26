@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 
-// Widget kontekstowy — pozwala zadać pytanie o konkretny warsztat bez
+// Widget kontekstowy - pozwala zadać pytanie o konkretny warsztat bez
 // opuszczania strony. Zawsze typu INDIVIDUAL (zapytania grupowe mają
 // osobny, bardziej szczegółowy formularz na /kontakt).
 export default function AskQuestionWidget({ workshopSlug, workshopTitle, className = "" }: Props) {

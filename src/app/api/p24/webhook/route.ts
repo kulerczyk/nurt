@@ -2,7 +2,7 @@ import { verifyP24NotificationSignature, verifyP24Transaction, type P24Notificat
 import { markOrderPaid } from "@/lib/orders";
 import { sendOrderPaidEmails } from "@/lib/email";
 
-// Endpoint wywoływany asynchronicznie przez serwery Przelewy24 (urlStatus) —
+// Endpoint wywoływany asynchronicznie przez serwery Przelewy24 (urlStatus) -
 // NIE przez przeglądarkę klienta. Musi być publicznie dostępny (bez auth admina)
 // i odpowiadać szybko z kodem 200, inaczej P24 uzna dostawę za nieudaną i będzie ponawiać.
 export async function POST(request: Request) {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   }
 
   if (!verifyP24NotificationSignature(payload)) {
-    console.error("[p24-webhook] Nieprawidłowy podpis powiadomienia — odrzucam.");
+    console.error("[p24-webhook] Nieprawidłowy podpis powiadomienia - odrzucam.");
     return new Response("Invalid signature", { status: 400 });
   }
 

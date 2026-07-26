@@ -81,7 +81,7 @@ export default function Hero() {
         >
           <div className="w-2 h-2 rounded-full bg-heather-400 animate-pulse" />
           <span className="text-sm text-stone-600 font-medium">
-            Najbliższy warsztat — sprawdź grafik
+            Najbliższy warsztat - sprawdź grafik
           </span>
         </motion.div>
       </div>

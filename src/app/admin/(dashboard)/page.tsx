@@ -21,7 +21,7 @@ export default async function AdminDashboardPage() {
 
       {workshops.length === 0 ? (
         <div className="bg-white rounded-3xl border border-heather-100 p-12 text-center">
-          <p className="text-stone-400 text-sm">Brak warsztatów — dodaj pierwszy powyżej.</p>
+          <p className="text-stone-400 text-sm">Brak warsztatów - dodaj pierwszy powyżej.</p>
         </div>
       ) : (
         <WorkshopsTable workshops={workshops} />

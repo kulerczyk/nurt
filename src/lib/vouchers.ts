@@ -96,7 +96,7 @@ export type VoucherRedemptionResult =
   | { ok: false; reason: "not_found" | "already_redeemed" | "expired" | "cancelled" };
 
 // Sprawdza i realizuje voucher w ramach tej samej transakcji, w której
-// tworzona jest rezerwacja (patrz src/lib/bookings.ts) — zapobiega
+// tworzona jest rezerwacja (patrz src/lib/bookings.ts) - zapobiega
 // wielokrotnemu wykorzystaniu tego samego kodu przy równoległych żądaniach.
 export async function redeemVoucherInTransaction(
   tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0],
@@ -112,7 +112,7 @@ export async function redeemVoucherInTransaction(
     return { ok: false, reason: "expired" };
   }
 
-  // updateMany z warunkiem status:"ACTIVE" w WHERE robi atomowy "redeem-if-active" —
+  // updateMany z warunkiem status:"ACTIVE" w WHERE robi atomowy "redeem-if-active" -
   // przy dwóch równoczesnych próbach użycia tego samego kodu tylko jedna zwróci count=1,
   // bo Postgres serializuje UPDATE-y na tym samym wierszu przez blokadę wiersza.
   const result = await tx.voucher.updateMany({

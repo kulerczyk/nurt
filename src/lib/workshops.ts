@@ -1,6 +1,8 @@
 import { cache } from "react";
 import { prisma } from "@/lib/db";
-import type { Workshop as WorkshopRow, Prisma } from "@/generated/prisma/client";
+import type { Workshop as WorkshopRow, WorkshopCategory, Prisma } from "@/generated/prisma/client";
+
+export type { WorkshopCategory };
 
 export interface WorkshopSection {
   heading?: string;
@@ -18,6 +20,7 @@ export interface Workshop {
   imageBg?: "light" | "dark";
   imagePosition?: string;
   color: string;
+  category: WorkshopCategory;
   intro: string;
   sections: WorkshopSection[];
   closing: string;
@@ -25,7 +28,7 @@ export interface Workshop {
   order: number;
 }
 
-// Mapuje wiersz z bazy (Prisma) na domenowy typ Workshop używany przez UI —
+// Mapuje wiersz z bazy (Prisma) na domenowy typ Workshop używany przez UI -
 // komponenty nie muszą znać szczegółów kolumn/typów Prisma.
 function toWorkshop(row: WorkshopRow): Workshop {
   return {
@@ -39,6 +42,7 @@ function toWorkshop(row: WorkshopRow): Workshop {
     imageBg: (row.imageBg as "light" | "dark" | null) ?? undefined,
     imagePosition: row.imagePosition ?? undefined,
     color: row.color,
+    category: row.category,
     intro: row.intro,
     sections: (row.sections as unknown as WorkshopSection[]) ?? [],
     closing: row.closing,
@@ -47,10 +51,15 @@ function toWorkshop(row: WorkshopRow): Workshop {
   };
 }
 
-// cache() memoizuje wywołanie w ramach jednego requestu (React Server Components) —
+// cache() memoizuje wywołanie w ramach jednego requestu (React Server Components) -
 // layout i strona mogą bezpiecznie odpytać te same dane bez podwójnego zapytania do bazy.
 export const getAllWorkshops = cache(async (): Promise<Workshop[]> => {
   const rows = await prisma.workshop.findMany({ orderBy: { order: "asc" } });
+  return rows.map(toWorkshop);
+});
+
+export const getWorkshopsByCategory = cache(async (category: WorkshopCategory): Promise<Workshop[]> => {
+  const rows = await prisma.workshop.findMany({ where: { category }, orderBy: { order: "asc" } });
   return rows.map(toWorkshop);
 });
 
@@ -64,16 +73,20 @@ export async function getAllSlugs(): Promise<string[]> {
   return rows.map((r) => r.slug);
 }
 
-export async function getOtherWorkshops(currentSlug: string, limit = 3): Promise<Workshop[]> {
+export async function getOtherWorkshops(
+  currentSlug: string,
+  limit = 3,
+  category?: WorkshopCategory
+): Promise<Workshop[]> {
   const rows = await prisma.workshop.findMany({
-    where: { slug: { not: currentSlug } },
+    where: { slug: { not: currentSlug }, ...(category ? { category } : {}) },
     orderBy: { order: "asc" },
     take: limit,
   });
   return rows.map(toWorkshop);
 }
 
-// --- Zarządzanie z panelu admina (bez cache — admin zawsze ma widzieć aktualny stan) ---
+// --- Zarządzanie z panelu admina (bez cache - admin zawsze ma widzieć aktualny stan) ---
 
 export interface WorkshopInput {
   slug: string;
@@ -85,6 +98,7 @@ export interface WorkshopInput {
   imageBg?: "light" | "dark";
   imagePosition?: string;
   color: string;
+  category: WorkshopCategory;
   intro: string;
   sections: WorkshopSection[];
   closing: string;

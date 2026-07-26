@@ -115,7 +115,7 @@ export default function GrafikListing({ sessions }: { sessions: GrafikSession[] 
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
           >
-            Wybierz warsztat i zarezerwuj miejsce — potwierdzenie dostaniesz od razu na e-mail.
+            Wybierz warsztat i zarezerwuj miejsce - potwierdzenie dostaniesz od razu na e-mail.
           </motion.p>
         </div>
 
@@ -123,7 +123,7 @@ export default function GrafikListing({ sessions }: { sessions: GrafikSession[] 
           <FadeUp>
             <div className="rounded-3xl bg-heather-50 border border-heather-100 p-12 text-center">
               <p className="text-stone-500">
-                Obecnie nie mamy zaplanowanych terminów — zajrzyj tu wkrótce albo{" "}
+                Obecnie nie mamy zaplanowanych terminów - zajrzyj tu wkrótce albo{" "}
                 <Link href="/kontakt" className="text-heather-700 font-medium hover:underline">napisz do nas</Link>, jeśli chcesz zapytać o najbliższą okazję.
               </p>
             </div>

@@ -71,7 +71,7 @@ export default function ProductForm({ mode, initialData, action }: Props) {
 
         <div>
           <label htmlFor="slug" className={labelClasses}>
-            Adres (slug) <span className="text-stone-400 font-normal">— identyfikator produktu w sklepie</span>
+            Adres (slug) <span className="text-stone-400 font-normal">- identyfikator produktu w sklepie</span>
           </label>
           <input
             id="slug"

@@ -22,7 +22,21 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-export default function WorkshopsListing({ workshops }: { workshops: Workshop[] }) {
+interface Props {
+  workshops: Workshop[];
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  emptyState?: React.ReactNode;
+}
+
+export default function WorkshopsListing({
+  workshops,
+  eyebrow = "Oferta",
+  title = "Nasze warsztaty",
+  description = "Od linorytu i sitodruku, przez ceramikę i biżuterię, aż po malarstwo i rzeźbę. Każda technika to nowa ścieżka - wybierz tę, która płynie z Twoim nurtem.",
+  emptyState,
+}: Props) {
   return (
     <div className="pt-28 pb-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -35,7 +49,7 @@ export default function WorkshopsListing({ workshops }: { workshops: Workshop[] 
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            Oferta
+            {eyebrow}
           </motion.span>
           <motion.h1
             className="font-serif text-5xl md:text-6xl font-semibold text-stone-900 leading-[1.1] mb-6"
@@ -43,7 +57,7 @@ export default function WorkshopsListing({ workshops }: { workshops: Workshop[] 
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.8, ease: "easeOut" }}
           >
-            Nasze warsztaty
+            {title}
           </motion.h1>
           <motion.p
             className="text-stone-500 text-lg leading-relaxed"
@@ -51,8 +65,7 @@ export default function WorkshopsListing({ workshops }: { workshops: Workshop[] 
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
           >
-            Od linorytu i sitodruku, przez ceramikę i biżuterię, aż po malarstwo i rzeźbę.
-            Każda technika to nowa ścieżka — wybierz tę, która płynie z Twoim nurtem.
+            {description}
           </motion.p>
         </div>
 
@@ -77,6 +90,9 @@ export default function WorkshopsListing({ workshops }: { workshops: Workshop[] 
         </motion.div>
 
         {/* Grid */}
+        {workshops.length === 0 && emptyState ? (
+          <FadeUp>{emptyState}</FadeUp>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {workshops.map((w, i) => (
             <FadeUp key={w.slug} delay={i * 0.06}>
@@ -123,6 +139,7 @@ export default function WorkshopsListing({ workshops }: { workshops: Workshop[] 
             </FadeUp>
           ))}
         </div>
+        )}
 
         {/* CTA banner */}
         <FadeUp className="mt-20" delay={0.1}>

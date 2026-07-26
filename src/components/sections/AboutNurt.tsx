@@ -67,7 +67,7 @@ export default function AboutNurt() {
           </h2>
         </FadeUp>
 
-        {/* Paragraph 1 — lead */}
+        {/* Paragraph 1 - lead */}
         <FadeUp delay={0.1} className="mb-16 max-w-3xl">
           <p className="text-xl md:text-2xl text-stone-700 font-serif leading-relaxed">
             Tak jak nurt rzeki nieustannie zmienia swój bieg, tak twórczość
@@ -77,7 +77,7 @@ export default function AboutNurt() {
           </p>
         </FadeUp>
 
-        {/* Paragraphs 2 & 3 — two columns */}
+        {/* Paragraphs 2 & 3 - two columns */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           <FadeUp delay={0.15}>
             <p className="text-stone-500 text-lg leading-relaxed">
@@ -89,7 +89,7 @@ export default function AboutNurt() {
               twórczej podróży.
             </p>
 
-            {/* Techniques — decorative chips echoing the paragraph above */}
+            {/* Techniques - decorative chips echoing the paragraph above */}
             <div className="flex flex-wrap gap-2.5 mt-6">
               {techniques.map((tech, i) => (
                 <span
@@ -138,7 +138,7 @@ export default function AboutNurt() {
           </svg>
         </div>
 
-        {/* Paragraph 4 — closing statement */}
+        {/* Paragraph 4 - closing statement */}
         <FadeUp delay={0.1} className="max-w-2xl mx-auto text-center">
           <p className="font-serif text-2xl md:text-3xl text-stone-800 leading-snug italic">
             NURT to nie tylko miejsce, w którym odbywają się nasze warsztaty.

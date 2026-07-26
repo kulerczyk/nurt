@@ -1,4 +1,4 @@
-// Prisma schema — NURT Warsztaty Artystyczne
+// Prisma schema - NURT Warsztaty Artystyczne
 // Learn more: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -10,12 +10,20 @@ datasource db {
   provider = "postgresql"
 }
 
-// Treść pojedynczego warsztatu — odpowiada strukturze dotychczasowego
+// Trzy sekcje oferty widoczne w menu: zwykłe warsztaty (pojedyncze sesje),
+// kursy certyfikowane (dłuższe, z zaświadczeniem) i eventy/oferta firmowa.
+enum WorkshopCategory {
+  WARSZTAT
+  KURS_CERTYFIKOWANY
+  EVENT
+}
+
+// Treść pojedynczego warsztatu - odpowiada strukturze dotychczasowego
 // src/lib/workshops.ts, przeniesionej do bazy, by dało się nią zarządzać
 // z panelu admina bez zmian w kodzie.
 model Workshop {
-  id            String   @id @default(cuid())
-  slug          String   @unique
+  id            String           @id @default(cuid())
+  slug          String           @unique
   shortTitle    String
   title         String
   tagline       String
@@ -24,13 +32,14 @@ model Workshop {
   imageBg       String? // "light" | "dark"
   imagePosition String?
   color         String
-  intro         String   @db.Text
+  category      WorkshopCategory @default(WARSZTAT)
+  intro         String           @db.Text
   sections      Json // [{ heading?: string, body: string }]
-  closing       String   @db.Text
+  closing       String           @db.Text
   highlights    String[]
-  order         Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  order         Int              @default(0)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   sessions WorkshopSession[]
 
@@ -47,7 +56,7 @@ enum BookingStatus {
   CANCELLED
 }
 
-// Konkretny termin warsztatu (data + pojemność) — jeden Workshop może mieć
+// Konkretny termin warsztatu (data + pojemność) - jeden Workshop może mieć
 // wiele terminów w grafiku. Tworzone i zarządzane z panelu admina.
 model WorkshopSession {
   id         String        @id @default(cuid())
@@ -69,9 +78,9 @@ model WorkshopSession {
   @@index([workshopId])
 }
 
-// Rezerwacja miejsca na konkretny termin. Bez przedpłaty na tym etapie —
+// Rezerwacja miejsca na konkretny termin. Bez przedpłaty na tym etapie -
 // status CONFIRMED = potwierdzone miejsce, płatność ustalana poza systemem
-// (albo pokryta voucherem ze Sklepu — patrz redeemedVoucher).
+// (albo pokryta voucherem ze Sklepu - patrz redeemedVoucher).
 model Booking {
   id        String        @id @default(cuid())
   session   WorkshopSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
@@ -102,7 +111,7 @@ enum InquiryStatus {
   ANSWERED
 }
 
-// Zapytania z formularzy kontaktowych — widget "Zadaj pytanie" na stronach
+// Zapytania z formularzy kontaktowych - widget "Zadaj pytanie" na stronach
 // warsztatów (INDIVIDUAL) oraz formularz grupowy/firmowy (CORPORATE).
 model Inquiry {
   id            String        @id @default(cuid())
@@ -152,7 +161,7 @@ enum VoucherStatus {
   CANCELLED
 }
 
-// Pozycja w katalogu Sklepu — voucher podarunkowy albo produkt fizyczny.
+// Pozycja w katalogu Sklepu - voucher podarunkowy albo produkt fizyczny.
 // Ceny w groszach (Int), żeby uniknąć błędów zaokrągleń liczb zmiennoprzecinkowych.
 model Product {
   id               String      @id @default(cuid())
@@ -164,7 +173,7 @@ model Product {
   type             ProductType
   priceCents       Int
   stock            Int? // tylko PHYSICAL; null = brak śledzenia stanu
-  voucherValidDays Int? // tylko VOUCHER — ważność w dniach od zakupu
+  voucherValidDays Int? // tylko VOUCHER - ważność w dniach od zakupu
   active           Boolean     @default(true)
   order            Int         @default(0)
   createdAt        DateTime    @default(now())
@@ -191,7 +200,7 @@ model Order {
   p24OrderId      String? // orderId zwrócony przez P24 po stronie webhooka
   notes           String?        @db.Text
   // Personalizacja voucherów w tym zamówieniu (uproszczenie v1: jedna dedykacja
-  // na całe zamówienie, a nie per pozycja — wystarczające przy zakupie 1 vouchera na raz).
+  // na całe zamówienie, a nie per pozycja - wystarczające przy zakupie 1 vouchera na raz).
   voucherRecipientName String?
   voucherMessage       String?   @db.Text
   createdAt       DateTime       @default(now())

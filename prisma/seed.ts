@@ -2,11 +2,11 @@ import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 
-// Seed łączy się przez DIRECT_URL (bez poolera) — tak samo jak migracje.
+// Seed łączy się przez DIRECT_URL (bez poolera) - tak samo jak migracje.
 const adapter = new PrismaPg({ connectionString: process.env.DIRECT_URL });
 const prisma = new PrismaClient({ adapter });
 
-// Dane źródłowe — poprzednio hardcoded w src/lib/workshops.ts,
+// Dane źródłowe - poprzednio hardcoded w src/lib/workshops.ts,
 // teraz jednorazowo wgrywane do bazy. Po seedowaniu jedynym źródłem
 // prawdy jest baza danych (edytowalna z panelu admina).
 const workshopsSeed = [
@@ -56,7 +56,7 @@ const workshopsSeed = [
     slug: "bizuteria",
     shortTitle: "Tworzenie biżuterii",
     title: "Warsztaty tworzenia biżuterii",
-    tagline: "Zaprojektuj i noś — coś, czego nie ma nikt inny.",
+    tagline: "Zaprojektuj i noś - coś, czego nie ma nikt inny.",
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1400&q=85",
     imageAlt: "Koraliki i kamienie naturalne podczas warsztatów biżuterii",
     imageBg: null,
@@ -79,7 +79,7 @@ const workshopsSeed = [
     title: "Warsztaty sitodruku",
     tagline: "Twój wzór. Twoja koszulka. Twoja torba.",
     image: "/workshops/sitodruk.png",
-    imageAlt: "Sitodruk — nanoszenie farby przez matrycę raklem",
+    imageAlt: "Sitodruk - nanoszenie farby przez matrycę raklem",
     imageBg: null,
     imagePosition: null,
     color: "heather-600",
@@ -101,7 +101,7 @@ const workshopsSeed = [
     title: "Warsztaty rzeźby",
     tagline: "Od pomysłu do przestrzennej formy.",
     image: "/workshops/rzezba.png",
-    imageAlt: "Rzeźba ceramiczna — głowa z dłońmi zasłaniającymi twarz",
+    imageAlt: "Rzeźba ceramiczna - głowa z dłońmi zasłaniającymi twarz",
     imageBg: "light",
     imagePosition: "center center",
     color: "heather-500",
@@ -123,7 +123,7 @@ const workshopsSeed = [
     title: "Warsztaty ceramiczne",
     tagline: "Glina w rękach, spokój w głowie.",
     image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1400&q=85",
-    imageAlt: "Ceramika — dłonie formujące glinę",
+    imageAlt: "Ceramika - dłonie formujące glinę",
     imageBg: null,
     imagePosition: null,
     color: "heather-400",
@@ -145,7 +145,7 @@ const workshopsSeed = [
     title: "Warsztaty malowania na ubraniach",
     tagline: "Drugie życie dla Twoich ubrań.",
     image: "/workshops/malowanie-na-ubraniach.png",
-    imageAlt: "Kurtka dżinsowa z ręcznie malowanym wzorem — farby do tkanin",
+    imageAlt: "Kurtka dżinsowa z ręcznie malowanym wzorem - farby do tkanin",
     imageBg: null,
     imagePosition: null,
     color: "heather-500",
@@ -156,16 +156,16 @@ const workshopsSeed = [
       { body: "Nie musisz umieć rysować ani malować. Pomożemy Ci przenieść Twój pomysł na materiał, a jeśli nie masz inspiracji, wspólnie coś wymyślimy. Możesz stworzyć minimalistyczny wzór, kolorową grafikę, napis albo całkowicie puścić wodze wyobraźni." },
     ],
     closing: "To świetna okazja, żeby kreatywnie spędzić czas, odświeżyć ulubione ubrania.",
-    highlights: ["Farby do tkanin", "Własne lub nasze materiały", "Trwałe wzory", "Minimalizm lub kolor — Twój wybór"],
+    highlights: ["Farby do tkanin", "Własne lub nasze materiały", "Trwałe wzory", "Minimalizm lub kolor - Twój wybór"],
     order: 6,
   },
   {
     slug: "filcowanie",
     shortTitle: "Filcowanie",
     title: "Warsztaty filcowania",
-    tagline: "Z wełny i cierpliwości — coś wyjątkowego.",
+    tagline: "Z wełny i cierpliwości - coś wyjątkowego.",
     image: "/workshops/filcowanie.png",
-    imageAlt: "Filcowane figurki — króliczki z wełny w naturalnych kolorach",
+    imageAlt: "Filcowane figurki - króliczki z wełny w naturalnych kolorach",
     imageBg: "light",
     imagePosition: null,
     color: "heather-400",

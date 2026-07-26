@@ -198,7 +198,7 @@ export default function SessionsManager({ workshops, sessions, bookingsBySession
 
       {sessions.length === 0 ? (
         <div className="bg-white rounded-3xl border border-heather-100 p-12 text-center">
-          <p className="text-stone-400 text-sm">Brak terminów — dodaj pierwszy powyżej.</p>
+          <p className="text-stone-400 text-sm">Brak terminów - dodaj pierwszy powyżej.</p>
         </div>
       ) : (
         <div className="bg-white rounded-3xl border border-heather-100 overflow-hidden">

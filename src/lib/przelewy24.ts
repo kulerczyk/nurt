@@ -41,7 +41,7 @@ function baseUrl(sandbox: boolean): string {
   return sandbox ? "https://sandbox.przelewy24.pl" : "https://secure.przelewy24.pl";
 }
 
-// P24 liczy podpis SHA-384 z JSON-a o ściśle określonej kolejności pól —
+// P24 liczy podpis SHA-384 z JSON-a o ściśle określonej kolejności pól -
 // dlatego literały obiektów poniżej mają pola wpisane w dokładnie tej kolejności.
 function sign(payload: Record<string, unknown>): string {
   return createHash("sha384").update(JSON.stringify(payload)).digest("hex");
@@ -122,7 +122,7 @@ export interface P24NotificationPayload {
   sign: string;
 }
 
-// Zawsze weryfikuj podpis PRZED zaufaniem jakimkolwiek polom z webhooka —
+// Zawsze weryfikuj podpis PRZED zaufaniem jakimkolwiek polom z webhooka -
 // to jedyny sposób odróżnienia prawdziwego powiadomienia P24 od sfałszowanego.
 export function verifyP24NotificationSignature(payload: P24NotificationPayload): boolean {
   const env = getP24Env();

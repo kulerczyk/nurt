@@ -8,7 +8,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export const revalidate = 3600; // ISR — odśwież co godzinę
+export const revalidate = 3600; // ISR - odśwież co godzinę
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const workshop = await getWorkshop(slug);
   if (!workshop) return {};
   return {
-    title: `${workshop.title} — NURT Warsztaty Artystyczne`,
+    title: workshop.title,
     description: workshop.intro,
   };
 }
@@ -31,7 +31,7 @@ export default async function WorkshopPage({ params }: Props) {
   if (!workshop) notFound();
 
   const [otherWorkshops, nextSession] = await Promise.all([
-    getOtherWorkshops(slug, 3),
+    getOtherWorkshops(slug, 3, workshop.category),
     getNextSessionForWorkshop(slug),
   ]);
 

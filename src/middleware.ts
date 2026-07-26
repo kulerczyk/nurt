@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Odświeża sesję Supabase przy każdym requeście i blokuje dostęp do /admin
-// dla niezalogowanych — analogicznie do wzorca z dokumentacji @supabase/ssr.
+// dla niezalogowanych - analogicznie do wzorca z dokumentacji @supabase/ssr.
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 

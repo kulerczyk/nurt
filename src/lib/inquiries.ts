@@ -22,7 +22,7 @@ export async function createInquiry(input: CreateInquiryInput): Promise<Inquiry>
   return prisma.inquiry.create({ data: input });
 }
 
-// Panel admina zawsze chce widzieć aktualny stan — bez cache() ani ISR.
+// Panel admina zawsze chce widzieć aktualny stan - bez cache() ani ISR.
 export async function getAllInquiries(): Promise<Inquiry[]> {
   return prisma.inquiry.findMany({ orderBy: { createdAt: "desc" } });
 }

@@ -5,7 +5,7 @@ import GrafikListing, { type GrafikSession } from "@/components/sections/GrafikL
 export const dynamic = "force-dynamic"; // dostępność miejsc musi być zawsze aktualna
 
 export const metadata: Metadata = {
-  title: "Grafik — NURT Warsztaty Artystyczne",
+  title: "Grafik",
   description: "Sprawdź najbliższe terminy warsztatów NURT i zarezerwuj swoje miejsce online.",
 };
 

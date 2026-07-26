@@ -65,7 +65,7 @@ export async function createCheckoutAction(
   const { order } = orderResult;
 
   if (!isP24Configured()) {
-    // Płatności online nie są jeszcze skonfigurowane — zamówienie zostaje zapisane
+    // Płatności online nie są jeszcze skonfigurowane - zamówienie zostaje zapisane
     // jako oczekujące, a klient trafia na stronę z informacją, że skontaktujemy się
     // w sprawie płatności. Admin widzi je w /admin/zamowienia i może oznaczyć jako
     // opłacone ręcznie po otrzymaniu przelewu bezpośredniego.
@@ -94,7 +94,7 @@ export async function createCheckoutAction(
     };
   }
 
-  // redirect() musi być wywołane poza try/catch — rzuca specjalny wyjątek
+  // redirect() musi być wywołane poza try/catch - rzuca specjalny wyjątek
   // sterujący nawigacją, który catch powyżej mógłby błędnie przechwycić.
   redirect(paymentUrl);
 }

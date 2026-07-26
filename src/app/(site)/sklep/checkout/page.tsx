@@ -137,7 +137,7 @@ export default function CheckoutPage() {
           {hasVoucher && (
             <div className={cardClasses}>
               <span className="section-label block mb-1">Personalizacja vouchera</span>
-              <p className="text-xs text-stone-400 -mt-2">Opcjonalnie — jeśli kupujesz voucher w prezencie.</p>
+              <p className="text-xs text-stone-400 -mt-2">Opcjonalnie - jeśli kupujesz voucher w prezencie.</p>
               <div>
                 <label htmlFor="voucherRecipientName" className={labelClasses}>Dla kogo <span className="text-stone-400 font-normal">(opcjonalnie)</span></label>
                 <input id="voucherRecipientName" name="voucherRecipientName" type="text" className={inputClasses} placeholder="np. Kasia" />
@@ -159,7 +159,7 @@ export default function CheckoutPage() {
           )}
 
           <button type="submit" disabled={pending} className="blob-btn w-full justify-center disabled:opacity-60">
-            {pending ? "Przetwarzanie…" : `Przejdź do płatności — ${formatPln(subtotalCents + shippingCents)}`}
+            {pending ? "Przetwarzanie…" : `Przejdź do płatności - ${formatPln(subtotalCents + shippingCents)}`}
           </button>
         </form>
       </div>

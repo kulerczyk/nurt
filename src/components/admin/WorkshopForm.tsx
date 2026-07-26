@@ -89,7 +89,7 @@ export default function WorkshopForm({ mode, initialData, action }: Props) {
 
         <div>
           <label htmlFor="slug" className={labelClasses}>
-            Adres (slug) <span className="text-stone-400 font-normal">— część adresu strony, np. nurt.pl/warsztaty/<b>linoryt</b></span>
+            Adres (slug) <span className="text-stone-400 font-normal">- część adresu strony, np. nurt.pl/warsztaty/<b>linoryt</b></span>
           </label>
           <input
             id="slug"
@@ -139,6 +139,16 @@ export default function WorkshopForm({ mode, initialData, action }: Props) {
             <p className="text-xs text-stone-400 mt-1">Mniejsza liczba = wyżej na liście.</p>
           </div>
         </div>
+
+        <div>
+          <label htmlFor="category" className={labelClasses}>Sekcja oferty</label>
+          <select id="category" name="category" required defaultValue={initialData?.category ?? "WARSZTAT"} className={inputClasses}>
+            <option value="WARSZTAT">Warsztaty (pojedyncze sesje)</option>
+            <option value="KURS_CERTYFIKOWANY">Kursy Certyfikowane</option>
+            <option value="EVENT">Eventy / oferta firmowa</option>
+          </select>
+          <p className="text-xs text-stone-400 mt-1">Decyduje, na której podstronie („/warsztaty”, „/kursy-certyfikowane” albo „/eventy”) ta pozycja się pojawi.</p>
+        </div>
       </div>
 
       {/* Zdjęcie */}
@@ -179,7 +189,7 @@ export default function WorkshopForm({ mode, initialData, action }: Props) {
             <label htmlFor="imageBg" className={labelClasses}>Tło zdjęcia</label>
             <select id="imageBg" name="imageBg" defaultValue={initialData?.imageBg ?? ""} className={inputClasses}>
               <option value="">Domyślne (zdjęcie wypełnia przestrzeń)</option>
-              <option value="light">Jasne — dla zdjęć produktowych na białym tle</option>
+              <option value="light">Jasne - dla zdjęć produktowych na białym tle</option>
               <option value="dark">Ciemne</option>
             </select>
           </div>

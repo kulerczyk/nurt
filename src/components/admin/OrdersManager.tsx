@@ -123,7 +123,7 @@ function OrderRow({ order, vouchers }: { order: OrderWithItems; vouchers: Vouche
               )}
             </div>
             <p className="text-sm text-stone-500 mt-2">
-              {order.deliveryMethod === "COURIER" ? `Kurier: ${order.shippingAddress ?? "—"}` : "Odbiór osobisty"}
+              {order.deliveryMethod === "COURIER" ? `Kurier: ${order.shippingAddress ?? "-"}` : "Odbiór osobisty"}
             </p>
             {order.customerPhone && <p className="text-sm text-stone-500">Tel: {order.customerPhone}</p>}
             {order.notes && <p className="text-sm text-stone-500 italic mt-1">„{order.notes}”</p>}

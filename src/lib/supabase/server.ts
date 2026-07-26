@@ -20,7 +20,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch {
-            // setAll wywołane z Server Component bez możliwości zapisu cookies —
+            // setAll wywołane z Server Component bez możliwości zapisu cookies -
             // bezpieczne do zignorowania, bo middleware odświeży sesję przy nawigacji.
           }
         },

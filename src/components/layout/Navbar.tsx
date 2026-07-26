@@ -148,7 +148,7 @@ export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
         </div>
       </nav>
 
-      {/* Mega menu — full width panel */}
+      {/* Mega menu - full width panel */}
       <AnimatePresence>
         {megaOpen && (
           <motion.div
@@ -163,7 +163,7 @@ export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
             <div className="max-w-6xl mx-auto px-6 py-8">
               <div className="grid grid-cols-3 gap-10">
 
-                {/* Column 1 — Categories */}
+                {/* Column 1 - Categories */}
                 <div>
                   <p className="section-label mb-4">Oferta</p>
                   <ul className="space-y-1">
@@ -206,7 +206,7 @@ export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
                   </Link>
                 </div>
 
-                {/* Column 2 — Workshops list (first 4) */}
+                {/* Column 2 - Workshops list (first 4) */}
                 <div>
                   <p className="section-label mb-4">Techniki</p>
                   <ul className="space-y-0.5">
@@ -228,7 +228,7 @@ export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
                   </ul>
                 </div>
 
-                {/* Column 3 — Workshops list (last 4) */}
+                {/* Column 3 - Workshops list (last 4) */}
                 <div>
                   <p className="section-label mb-4">Techniki</p>
                   <ul className="space-y-0.5">

@@ -29,7 +29,7 @@ export default function Footer() {
           </svg>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="font-serif text-2xl font-semibold text-stone-900 tracking-widest block mb-4">
@@ -81,6 +81,24 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <p className="section-label mb-4">Pracownia</p>
+            <ul className="space-y-2.5 text-sm text-stone-500">
+              <li>Konstruktorska 6, 02-673 Warszawa</li>
+              <li>
+                <a href="mailto:nataliatafel@gmail.com" className="hover:text-heather-700 transition-colors duration-300">
+                  nataliatafel@gmail.com
+                </a>
+              </li>
+              <li>
+                <a href="tel:+48516527527" className="hover:text-heather-700 transition-colors duration-300">
+                  +48 516 527 527
+                </a>
+              </li>
             </ul>
           </div>
         </div>

@@ -37,6 +37,7 @@ function parseWorkshopFormData(formData: FormData) {
     imageBg: formData.get("imageBg"),
     imagePosition: formData.get("imagePosition"),
     color: formData.get("color"),
+    category: formData.get("category"),
     intro: formData.get("intro"),
     sections,
     closing: formData.get("closing"),
@@ -51,6 +52,8 @@ function revalidateWorkshopPages() {
   revalidatePath("/");
   revalidatePath("/warsztaty");
   revalidatePath("/warsztaty/[slug]", "page");
+  revalidatePath("/kursy-certyfikowane");
+  revalidatePath("/eventy");
 }
 
 export async function createWorkshopAction(_prev: WorkshopFormState, formData: FormData): Promise<WorkshopFormState> {
@@ -60,7 +63,7 @@ export async function createWorkshopAction(_prev: WorkshopFormState, formData: F
   }
 
   if (await isSlugTaken(parsed.data.slug)) {
-    return { success: false, error: `Warsztat o adresie „${parsed.data.slug}” już istnieje — wybierz inny.` };
+    return { success: false, error: `Warsztat o adresie „${parsed.data.slug}” już istnieje - wybierz inny.` };
   }
 
   try {
@@ -85,7 +88,7 @@ export async function updateWorkshopAction(
   }
 
   if (await isSlugTaken(parsed.data.slug, id)) {
-    return { success: false, error: `Warsztat o adresie „${parsed.data.slug}” już istnieje — wybierz inny.` };
+    return { success: false, error: `Warsztat o adresie „${parsed.data.slug}” już istnieje - wybierz inny.` };
   }
 
   try {
@@ -104,7 +107,7 @@ export async function deleteWorkshopAction(id: string): Promise<{ success: true 
   if (sessionsCount > 0) {
     return {
       success: false,
-      error: `Nie można usunąć — ten warsztat ma ${sessionsCount} ${sessionsCount === 1 ? "termin" : "terminów"} w grafiku (wraz z ewentualnymi rezerwacjami). Usuń najpierw te terminy w zakładce „Grafik”.`,
+      error: `Nie można usunąć - ten warsztat ma ${sessionsCount} ${sessionsCount === 1 ? "termin" : "terminów"} w grafiku (wraz z ewentualnymi rezerwacjami). Usuń najpierw te terminy w zakładce „Grafik”.`,
     };
   }
 

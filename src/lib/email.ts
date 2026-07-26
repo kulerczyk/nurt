@@ -28,17 +28,17 @@ function contextLines(input: CreateInquiryInput): string {
   return lines.join("\n");
 }
 
-// Wysyłka e-maili jest "best effort" — brak klucza Resend albo błąd API
+// Wysyłka e-maili jest "best effort" - brak klucza Resend albo błąd API
 // nie może zablokować zapisu zapytania do bazy (to najważniejsza część).
 export async function sendInquiryEmails(input: CreateInquiryInput): Promise<void> {
   if (!resend) {
-    console.warn("[email] RESEND_API_KEY nie ustawiony — pomijam wysyłkę e-maili (zapytanie zapisane w bazie).");
+    console.warn("[email] RESEND_API_KEY nie ustawiony - pomijam wysyłkę e-maili (zapytanie zapisane w bazie).");
     return;
   }
 
   const subject = input.type === "CORPORATE"
     ? `Nowe zapytanie grupowe/firmowe od ${input.name}`
-    : `Nowe pytanie od ${input.name}${input.workshopTitle ? ` — ${input.workshopTitle}` : ""}`;
+    : `Nowe pytanie od ${input.name}${input.workshopTitle ? ` - ${input.workshopTitle}` : ""}`;
 
   const context = contextLines(input);
 
@@ -58,13 +58,13 @@ export async function sendInquiryEmails(input: CreateInquiryInput): Promise<void
         ].filter(Boolean).join("\n"),
       });
     } else {
-      console.warn("[email] CONTACT_ADMIN_EMAIL nie ustawiony — pomijam powiadomienie do administratora.");
+      console.warn("[email] CONTACT_ADMIN_EMAIL nie ustawiony - pomijam powiadomienie do administratora.");
     }
 
     await resend.emails.send({
       from: FROM,
       to: input.email,
-      subject: "Dziękujemy za wiadomość — NURT Warsztaty Artystyczne",
+      subject: "Dziękujemy za wiadomość - NURT Warsztaty Artystyczne",
       text: [
         `Cześć ${input.name},`,
         "",
@@ -98,17 +98,17 @@ interface OrderEmailInput {
 
 export async function sendOrderPaidEmails(input: OrderEmailInput): Promise<void> {
   if (!resend) {
-    console.warn("[email] RESEND_API_KEY nie ustawiony — pomijam wysyłkę e-maili o zamówieniu.");
+    console.warn("[email] RESEND_API_KEY nie ustawiony - pomijam wysyłkę e-maili o zamówieniu.");
     return;
   }
 
   const itemLines = input.items.map(
-    (i) => `${i.quantity} × ${i.nameSnapshot} — ${formatPln(i.unitPriceCents * i.quantity)}`
+    (i) => `${i.quantity} × ${i.nameSnapshot} - ${formatPln(i.unitPriceCents * i.quantity)}`
   );
   const voucherLines = input.vouchers.map((v) => `${v.productName}: kod ${v.code}`);
   const deliveryLine =
     input.deliveryMethod === "COURIER"
-      ? `Dostawa kurierem na adres: ${input.shippingAddress ?? "—"}`
+      ? `Dostawa kurierem na adres: ${input.shippingAddress ?? "-"}`
       : "Odbiór osobisty w pracowni NURT";
 
   try {
@@ -117,7 +117,7 @@ export async function sendOrderPaidEmails(input: OrderEmailInput): Promise<void>
         from: FROM,
         to: ADMIN_EMAIL,
         replyTo: input.customerEmail,
-        subject: `Nowe opłacone zamówienie — ${input.customerName}`,
+        subject: `Nowe opłacone zamówienie - ${input.customerName}`,
         text: [
           `Klient: ${input.customerName} <${input.customerEmail}>`,
           deliveryLine,
@@ -135,7 +135,7 @@ export async function sendOrderPaidEmails(input: OrderEmailInput): Promise<void>
     await resend.emails.send({
       from: FROM,
       to: input.customerEmail,
-      subject: "Potwierdzenie zamówienia — NURT Sklep",
+      subject: "Potwierdzenie zamówienia - NURT Sklep",
       text: [
         `Cześć ${input.customerName},`,
         "",
@@ -167,7 +167,7 @@ function formatSessionDate(date: Date): string {
 
 export async function sendBookingEmails(input: BookingEmailInput): Promise<void> {
   if (!resend) {
-    console.warn("[email] RESEND_API_KEY nie ustawiony — pomijam wysyłkę e-maili o rezerwacji.");
+    console.warn("[email] RESEND_API_KEY nie ustawiony - pomijam wysyłkę e-maili o rezerwacji.");
     return;
   }
 
@@ -179,7 +179,7 @@ export async function sendBookingEmails(input: BookingEmailInput): Promise<void>
         from: FROM,
         to: ADMIN_EMAIL,
         replyTo: input.email,
-        subject: `Nowa rezerwacja: ${input.workshopTitle} — ${input.name}`,
+        subject: `Nowa rezerwacja: ${input.workshopTitle} - ${input.name}`,
         text: [
           `Warsztat: ${input.workshopTitle}`,
           `Termin: ${when}`,
@@ -190,13 +190,13 @@ export async function sendBookingEmails(input: BookingEmailInput): Promise<void>
         ].filter(Boolean).join("\n"),
       });
     } else {
-      console.warn("[email] CONTACT_ADMIN_EMAIL nie ustawiony — pomijam powiadomienie do administratora.");
+      console.warn("[email] CONTACT_ADMIN_EMAIL nie ustawiony - pomijam powiadomienie do administratora.");
     }
 
     await resend.emails.send({
       from: FROM,
       to: input.email,
-      subject: `Potwierdzenie rezerwacji — ${input.workshopTitle}`,
+      subject: `Potwierdzenie rezerwacji - ${input.workshopTitle}`,
       text: [
         `Cześć ${input.name},`,
         "",

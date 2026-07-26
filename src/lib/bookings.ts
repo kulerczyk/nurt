@@ -93,7 +93,7 @@ export async function getBookingsForSession(sessionId: string): Promise<Booking[
   });
 }
 
-// Panel admina wyświetla wszystkie terminy naraz — wygodniej pobrać wszystkie
+// Panel admina wyświetla wszystkie terminy naraz - wygodniej pobrać wszystkie
 // rezerwacje jednym zapytaniem i pogrupować w pamięci niż odpytywać per wiersz.
 export async function getAllBookingsGroupedBySession(): Promise<Record<string, Booking[]>> {
   const rows = await prisma.booking.findMany({ orderBy: { createdAt: "asc" } });

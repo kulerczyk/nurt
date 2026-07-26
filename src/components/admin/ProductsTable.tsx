@@ -47,7 +47,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
                 <td className="px-6 py-3.5 font-medium text-stone-800">{p.name}</td>
                 <td className="px-6 py-3.5 text-stone-500">{p.type === "VOUCHER" ? "Voucher" : "Produkt fizyczny"}</td>
                 <td className="px-6 py-3.5 text-stone-500">{formatPln(p.priceCents)}</td>
-                <td className="px-6 py-3.5 text-stone-500">{p.type === "PHYSICAL" ? (p.stock ?? "—") : "—"}</td>
+                <td className="px-6 py-3.5 text-stone-500">{p.type === "PHYSICAL" ? (p.stock ?? "-") : "-"}</td>
                 <td className="px-6 py-3.5">
                   <span
                     className={[
@@ -79,7 +79,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
             {products.length === 0 && (
               <tr>
                 <td colSpan={6} className="px-6 py-8 text-center text-stone-400">
-                  Brak produktów — dodaj pierwszy powyżej.
+                  Brak produktów - dodaj pierwszy powyżej.
                 </td>
               </tr>
             )}

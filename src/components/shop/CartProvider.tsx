@@ -36,7 +36,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {
-      // localStorage może być niedostępny (np. tryb prywatny) — koszyk po prostu startuje pusty.
+      // localStorage może być niedostępny (np. tryb prywatny) - koszyk po prostu startuje pusty.
     }
     setHydrated(true);
   }, []);

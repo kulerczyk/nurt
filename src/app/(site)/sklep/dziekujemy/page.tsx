@@ -18,13 +18,13 @@ export default async function ThankYouPage({ searchParams }: Props) {
 
   let heading = "Dziękujemy za zamówienie";
   let message =
-    "Nie znaleźliśmy szczegółów tego zamówienia, ale jeśli płatność została pobrana, napisz do nas — sprawdzimy to ręcznie.";
+    "Nie znaleźliśmy szczegółów tego zamówienia, ale jeśli płatność została pobrana, napisz do nas - sprawdzimy to ręcznie.";
 
   if (order) {
     if (statusParam === "pending") {
       heading = "Zamówienie przyjęte";
       message =
-        "Płatności online w sklepie są jeszcze w trakcie uruchamiania — skontaktujemy się z Tobą e-mailem, żeby dokończyć płatność.";
+        "Płatności online w sklepie są jeszcze w trakcie uruchamiania - skontaktujemy się z Tobą e-mailem, żeby dokończyć płatność.";
     } else if (order.status === "PAID" || order.status === "FULFILLED") {
       heading = "Płatność potwierdzona";
       message = "Dziękujemy! Potwierdzenie i szczegóły wysłaliśmy na Twój adres e-mail.";

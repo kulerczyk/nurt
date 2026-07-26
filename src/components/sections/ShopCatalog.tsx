@@ -136,7 +136,7 @@ export default function ShopCatalog({ vouchers, products }: { vouchers: Product[
         {vouchers.length === 0 && products.length === 0 && (
           <FadeUp>
             <div className="rounded-3xl bg-heather-50 border border-heather-100 p-12 text-center">
-              <p className="text-stone-500">Sklep jest w przygotowaniu — wróć wkrótce.</p>
+              <p className="text-stone-500">Sklep jest w przygotowaniu - wróć wkrótce.</p>
             </div>
           </FadeUp>
         )}

@@ -1,4 +1,4 @@
-// P24 wymaga pełnych, publicznie dostępnych adresów https dla urlReturn/urlStatus —
+// P24 wymaga pełnych, publicznie dostępnych adresów https dla urlReturn/urlStatus -
 // nie da się użyć ścieżek względnych, jak w linkach wewnętrznych Next.js.
 export function getSiteUrl(): string {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");

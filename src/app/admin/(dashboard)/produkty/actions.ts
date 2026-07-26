@@ -58,7 +58,7 @@ export async function createProductAction(_prev: ProductFormState, formData: For
   }
 
   if (await isProductSlugTaken(parsed.data.slug)) {
-    return { success: false, error: `Produkt o adresie „${parsed.data.slug}” już istnieje — wybierz inny.` };
+    return { success: false, error: `Produkt o adresie „${parsed.data.slug}” już istnieje - wybierz inny.` };
   }
 
   try {
@@ -83,7 +83,7 @@ export async function updateProductAction(
   }
 
   if (await isProductSlugTaken(parsed.data.slug, id)) {
-    return { success: false, error: `Produkt o adresie „${parsed.data.slug}” już istnieje — wybierz inny.` };
+    return { success: false, error: `Produkt o adresie „${parsed.data.slug}” już istnieje - wybierz inny.` };
   }
 
   try {
@@ -102,7 +102,7 @@ export async function deleteProductAction(id: string): Promise<{ success: true }
   if (usedInOrders > 0) {
     return {
       success: false,
-      error: `Nie można usunąć — ten produkt występuje w ${usedInOrders} istniejących zamówieniach. Możesz go zamiast tego dezaktywować.`,
+      error: `Nie można usunąć - ten produkt występuje w ${usedInOrders} istniejących zamówieniach. Możesz go zamiast tego dezaktywować.`,
     };
   }
 
