@@ -19,7 +19,9 @@ export default function AdminNav({ newInquiriesCount }: Props) {
   return (
     <nav className="flex items-center gap-1">
       {links.map((link) => {
-        const active = pathname === link.href;
+        const active =
+          pathname === link.href ||
+          (link.href === "/admin" && pathname.startsWith("/admin/warsztaty"));
         return (
           <Link
             key={link.href}

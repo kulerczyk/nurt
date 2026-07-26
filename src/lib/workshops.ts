@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { prisma } from "@/lib/db";
-import type { Workshop as WorkshopRow } from "@/generated/prisma/client";
+import type { Workshop as WorkshopRow, Prisma } from "@/generated/prisma/client";
 
 export interface WorkshopSection {
   heading?: string;
@@ -22,6 +22,7 @@ export interface Workshop {
   sections: WorkshopSection[];
   closing: string;
   highlights: string[];
+  order: number;
 }
 
 // Mapuje wiersz z bazy (Prisma) na domenowy typ Workshop używany przez UI —
@@ -42,6 +43,7 @@ function toWorkshop(row: WorkshopRow): Workshop {
     sections: (row.sections as unknown as WorkshopSection[]) ?? [],
     closing: row.closing,
     highlights: row.highlights,
+    order: row.order,
   };
 }
 
@@ -69,4 +71,59 @@ export async function getOtherWorkshops(currentSlug: string, limit = 3): Promise
     take: limit,
   });
   return rows.map(toWorkshop);
+}
+
+// --- Zarządzanie z panelu admina (bez cache — admin zawsze ma widzieć aktualny stan) ---
+
+export interface WorkshopInput {
+  slug: string;
+  shortTitle: string;
+  title: string;
+  tagline: string;
+  image: string;
+  imageAlt: string;
+  imageBg?: "light" | "dark";
+  imagePosition?: string;
+  color: string;
+  intro: string;
+  sections: WorkshopSection[];
+  closing: string;
+  highlights: string[];
+  order: number;
+}
+
+export async function getWorkshopById(id: string): Promise<Workshop | undefined> {
+  const row = await prisma.workshop.findUnique({ where: { id } });
+  return row ? toWorkshop(row) : undefined;
+}
+
+export async function isSlugTaken(slug: string, excludeId?: string): Promise<boolean> {
+  const row = await prisma.workshop.findUnique({ where: { slug }, select: { id: true } });
+  if (!row) return false;
+  return row.id !== excludeId;
+}
+
+export async function createWorkshop(input: WorkshopInput): Promise<Workshop> {
+  const { sections, ...rest } = input;
+  const row = await prisma.workshop.create({
+    data: { ...rest, sections: sections as unknown as Prisma.InputJsonValue },
+  });
+  return toWorkshop(row);
+}
+
+export async function updateWorkshop(id: string, input: WorkshopInput): Promise<Workshop> {
+  const { sections, ...rest } = input;
+  const row = await prisma.workshop.update({
+    where: { id },
+    data: { ...rest, sections: sections as unknown as Prisma.InputJsonValue },
+  });
+  return toWorkshop(row);
+}
+
+export async function deleteWorkshop(id: string): Promise<void> {
+  await prisma.workshop.delete({ where: { id } });
+}
+
+export async function countSessionsForWorkshop(id: string): Promise<number> {
+  return prisma.workshopSession.count({ where: { workshopId: id } });
 }
