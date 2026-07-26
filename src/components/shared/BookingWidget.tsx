@@ -125,6 +125,22 @@ export default function BookingWidget({ sessionId, workshopTitle, whenLabel, spo
                     <textarea id="b-notes" name="notes" rows={2} className={inputClasses} placeholder="Coś, o czym powinniśmy wiedzieć?" />
                   </div>
 
+                  <div>
+                    <label htmlFor="b-voucher" className={labelClasses}>
+                      Kod vouchera <span className="text-stone-400 font-normal">(opcjonalnie)</span>
+                    </label>
+                    <input
+                      id="b-voucher"
+                      name="voucherCode"
+                      type="text"
+                      className={`${inputClasses} font-mono uppercase`}
+                      placeholder="NURT-XXXX-XXXX"
+                    />
+                    <p className="text-xs text-stone-400 mt-1">
+                      Masz voucher podarunkowy ze <a href="/sklep" className="text-heather-600 hover:underline">sklepu NURT</a>? Wpisz jego kod, żeby opłacić nim udział.
+                    </p>
+                  </div>
+
                   {state?.success === false && (
                     <p className="text-sm text-red-600 bg-red-50 rounded-2xl px-4 py-2.5">{state.error}</p>
                   )}

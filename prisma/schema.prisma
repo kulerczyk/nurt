@@ -70,7 +70,8 @@ model WorkshopSession {
 }
 
 // Rezerwacja miejsca na konkretny termin. Bez przedpłaty na tym etapie —
-// status CONFIRMED = potwierdzone miejsce, płatność ustalana poza systemem.
+// status CONFIRMED = potwierdzone miejsce, płatność ustalana poza systemem
+// (albo pokryta voucherem ze Sklepu — patrz redeemedVoucher).
 model Booking {
   id        String        @id @default(cuid())
   session   WorkshopSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
@@ -83,6 +84,8 @@ model Booking {
   notes     String?       @db.Text
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+
+  redeemedVoucher Voucher?
 
   @@map("bookings")
   @@index([sessionId])
@@ -119,5 +122,121 @@ model Inquiry {
   updatedAt     DateTime      @updatedAt
 
   @@map("inquiries")
+  @@index([status])
+}
+
+// --- Sklep: produkty, zamówienia, vouchery ---
+
+enum ProductType {
+  VOUCHER
+  PHYSICAL
+}
+
+enum OrderStatus {
+  PENDING // utworzone, czeka na płatność
+  PAID
+  FAILED
+  CANCELLED
+  FULFILLED // zrealizowane (wysłane / odebrane)
+}
+
+enum DeliveryMethod {
+  PICKUP
+  COURIER
+}
+
+enum VoucherStatus {
+  ACTIVE
+  REDEEMED
+  EXPIRED
+  CANCELLED
+}
+
+// Pozycja w katalogu Sklepu — voucher podarunkowy albo produkt fizyczny.
+// Ceny w groszach (Int), żeby uniknąć błędów zaokrągleń liczb zmiennoprzecinkowych.
+model Product {
+  id               String      @id @default(cuid())
+  slug             String      @unique
+  name             String
+  description      String      @db.Text
+  image            String
+  imageAlt         String
+  type             ProductType
+  priceCents       Int
+  stock            Int? // tylko PHYSICAL; null = brak śledzenia stanu
+  voucherValidDays Int? // tylko VOUCHER — ważność w dniach od zakupu
+  active           Boolean     @default(true)
+  order            Int         @default(0)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  orderItems OrderItem[]
+
+  @@map("products")
+}
+
+// Zamówienie złożone w Sklepie. Kwoty przeliczane i zapisywane po stronie
+// serwera (nigdy nie ufamy cenom przysłanym z przeglądarki).
+model Order {
+  id              String         @id @default(cuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  deliveryMethod  DeliveryMethod @default(PICKUP)
+  shippingAddress String?        @db.Text
+  shippingCents   Int            @default(0)
+  totalCents      Int
+  status          OrderStatus    @default(PENDING)
+  p24SessionId    String?        @unique // nasz identyfikator sesji wysyłany do P24
+  p24OrderId      String? // orderId zwrócony przez P24 po stronie webhooka
+  notes           String?        @db.Text
+  // Personalizacja voucherów w tym zamówieniu (uproszczenie v1: jedna dedykacja
+  // na całe zamówienie, a nie per pozycja — wystarczające przy zakupie 1 vouchera na raz).
+  voucherRecipientName String?
+  voucherMessage       String?   @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  items    OrderItem[]
+  vouchers Voucher[]
+
+  @@map("orders")
+  @@index([status])
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId        String
+  product        Product @relation(fields: [productId], references: [id])
+  productId      String
+  nameSnapshot   String // nazwa produktu w chwili zakupu (niezależna od późniejszych zmian)
+  unitPriceCents Int
+  quantity       Int     @default(1)
+
+  @@map("order_items")
+  @@index([orderId])
+}
+
+// Voucher podarunkowy wygenerowany po opłaceniu zamówienia z pozycją typu VOUCHER.
+// Realizowany albo ręcznie przez admina, albo automatycznie przy rezerwacji
+// na /grafik (patrz Booking.redeemedVoucher).
+model Voucher {
+  id                String        @id @default(cuid())
+  code              String        @unique
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId           String
+  valueCents        Int
+  status            VoucherStatus @default(ACTIVE)
+  recipientName     String?
+  message           String?       @db.Text
+  expiresAt         DateTime?
+  redeemedAt        DateTime?
+  redeemedBookingId String?       @unique
+  redeemedBooking   Booking?      @relation(fields: [redeemedBookingId], references: [id])
+  createdAt         DateTime      @default(now())
+
+  @@map("vouchers")
+  @@index([code])
   @@index([status])
 }

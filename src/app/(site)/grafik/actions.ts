@@ -11,6 +11,10 @@ const reasonMessages: Record<string, string> = {
   NOT_FOUND: "Ten termin już nie istnieje. Odśwież stronę i spróbuj ponownie.",
   CANCELLED: "Ten termin został odwołany.",
   FULL: "Niestety, brakuje już tylu wolnych miejsc. Spróbuj zmniejszyć liczbę miejsc albo wybierz inny termin.",
+  VOUCHER_NOT_FOUND: "Nie znaleziono vouchera o podanym kodzie. Sprawdź, czy kod jest wpisany poprawnie.",
+  VOUCHER_ALREADY_REDEEMED: "Ten voucher został już wykorzystany.",
+  VOUCHER_EXPIRED: "Ten voucher stracił ważność.",
+  VOUCHER_CANCELLED: "Ten voucher został anulowany.",
 };
 
 export async function submitBooking(formData: FormData): Promise<BookingFormState> {
@@ -21,6 +25,7 @@ export async function submitBooking(formData: FormData): Promise<BookingFormStat
     phone: formData.get("phone"),
     seats: formData.get("seats"),
     notes: formData.get("notes"),
+    voucherCode: formData.get("voucherCode"),
   });
 
   if (!parsed.success) {
@@ -39,6 +44,7 @@ export async function submitBooking(formData: FormData): Promise<BookingFormStat
       phone: data.phone || undefined,
       seats: data.seats,
       notes: data.notes || undefined,
+      voucherCode: data.voucherCode || undefined,
     });
   } catch (error) {
     console.error("[grafik] Błąd zapisu rezerwacji:", error);

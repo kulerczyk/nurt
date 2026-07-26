@@ -48,6 +48,30 @@ w logach serwera zobaczysz ostrzeżenie. Żeby włączyć e-maile:
 4. Do testów lokalnych możesz zostawić `CONTACT_FROM_EMAIL="NURT <onboarding@resend.dev>"` — to testowy adres Resend, działa od razu, ale wysyła tylko na adres e-mail, którym zalogowałeś się do Resend
 5. Przed produkcją: zweryfikuj własną domenę w Resend (**Domains → Add Domain**, kilka wpisów DNS) i zmień `CONTACT_FROM_EMAIL` na np. `"NURT <kontakt@twojadomena.pl>"` — inaczej maile do klientów będą trafiać do spamu albo w ogóle się nie wysyłać
 
+## Sklep i płatności (Przelewy24) — opcjonalna, ale wymagana do prawdziwych płatności
+
+Sklep (`/sklep`) działa od razu: katalog produktów (vouchery + rękodzieło), koszyk
+i składanie zamówień. **Bez konfiguracji Przelewy24** zamówienia są zapisywane ze
+statusem „oczekuje na płatność”, klient widzi informację, że skontaktujemy się w
+sprawie płatności, a Ty w `/admin/zamowienia` możesz ręcznie oznaczyć zamówienie
+jako opłacone (np. po przelewie bezpośrednim) — wtedy system sam wygeneruje kody
+voucherów i wyśle e-mail z potwierdzeniem, dokładnie tak samo jak przy prawdziwej
+płatności online.
+
+Żeby włączyć prawdziwe płatności online:
+
+1. Załóż konto na [przelewy24.pl](https://www.przelewy24.pl/) (do testów: [panel sandbox](https://sandbox.przelewy24.pl/))
+2. W panelu sklepu znajdziesz: **ID sklepu (merchant ID)**, **ID punktu sprzedaży (POS ID)** — zwykle taki sam jak merchant ID, **klucz API** (Ustawienia → Klucze API) i **klucz CRC** (Ustawienia sklepu)
+3. Wklej je do `.env` jako `P24_MERCHANT_ID`, `P24_POS_ID`, `P24_API_KEY`, `P24_CRC_KEY`
+4. Zostaw `P24_SANDBOX="true"` do testów — płatności idą przez środowisko testowe P24 (karty/przelewy testowe, żadne prawdziwe pieniądze). Do produkcji zmień na `"false"` i użyj kluczy z panelu produkcyjnego (nie sandbox)
+5. Ustaw `NEXT_PUBLIC_SITE_URL` na publiczny adres strony (np. `https://nurt.pl`) — P24 potrzebuje pełnego adresu https, żeby wysłać powiadomienie o płatności i przekierować klienta z powrotem. Na Vercel można to pominąć, wykorzystany zostanie automatyczny adres deploymentu
+6. Pamiętaj o dodaniu tych samych zmiennych w ustawieniach projektu na Vercel (**Settings → Environment Variables**) — patrz sekcja o wdrożeniu
+
+Stawka wysyłki kurierem jest ustawiona na stałe w `src/lib/shop-constants.ts`
+(`FLAT_SHIPPING_CENTS`, domyślnie 15 zł) — zmień w jednym miejscu, jeśli cennik
+się zmieni. Produkty fizyczne można też oferować wyłącznie z odbiorem osobistym
+(bez dodatkowych kosztów) — klient wybiera opcję w checkoucie.
+
 ## Rozwój lokalny
 
 ```bash

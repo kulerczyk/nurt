@@ -7,6 +7,7 @@ export const bookingSchema = z.object({
   phone: z.string().trim().optional().or(z.literal("")),
   seats: z.coerce.number().int().min(1, "Podaj liczbę miejsc.").max(20, "Maksymalnie 20 miejsc w jednej rezerwacji."),
   notes: z.string().trim().max(1000).optional().or(z.literal("")),
+  voucherCode: z.string().trim().max(50).optional().or(z.literal("")),
 });
 
 export type BookingFormValues = z.infer<typeof bookingSchema>;

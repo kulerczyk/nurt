@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "@/components/shop/CartProvider";
 
 export interface NavWorkshop {
   slug: string;
@@ -36,6 +37,28 @@ const megaVariants = {
     transition: { duration: 0.35, ease: "easeOut" as const },
   },
 };
+
+function CartLink({ className = "" }: { className?: string }) {
+  const { count } = useCart();
+  return (
+    <Link
+      href="/sklep/koszyk"
+      aria-label="Koszyk"
+      className={`relative flex items-center justify-center w-10 h-10 rounded-full text-stone-700 hover:bg-heather-50 hover:text-heather-800 transition-all duration-300 ${className}`}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="9" cy="21" r="1" />
+        <circle cx="20" cy="21" r="1" />
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+      </svg>
+      {count > 0 && (
+        <span className="absolute -top-0.5 -right-0.5 min-w-[1.1rem] h-[1.1rem] px-1 rounded-full bg-heather-500 text-white text-[0.65rem] font-semibold flex items-center justify-center">
+          {count}
+        </span>
+      )}
+    </Link>
+  );
+}
 
 export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
   const [megaOpen, setMegaOpen] = useState(false);
@@ -98,7 +121,8 @@ export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
         </ul>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center">
+        <div className="hidden md:flex items-center gap-2">
+          <CartLink />
           <Link
             href="/kontakt"
             className="text-[0.875rem] font-medium text-heather-700 border border-heather-300 px-4 py-1.5 rounded-full
@@ -109,16 +133,19 @@ export default function Navbar({ workshops }: { workshops: NavWorkshop[] }) {
           </Link>
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-        >
-          <span className={`block w-5 h-0.5 bg-stone-800 transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`block w-5 h-0.5 bg-stone-800 transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-0.5 bg-stone-800 transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-        </button>
+        {/* Mobile: cart + hamburger */}
+        <div className="md:hidden flex items-center">
+          <CartLink />
+          <button
+            className="flex flex-col gap-1.5 p-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+          >
+            <span className={`block w-5 h-0.5 bg-stone-800 transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-stone-800 transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-stone-800 transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          </button>
+        </div>
       </nav>
 
       {/* Mega menu — full width panel */}

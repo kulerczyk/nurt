@@ -82,6 +82,83 @@ export async function sendInquiryEmails(input: CreateInquiryInput): Promise<void
   }
 }
 
+function formatPln(cents: number): string {
+  return `${(cents / 100).toFixed(2).replace(".", ",")} zł`;
+}
+
+interface OrderEmailInput {
+  customerName: string;
+  customerEmail: string;
+  deliveryMethod: "PICKUP" | "COURIER";
+  shippingAddress?: string | null;
+  totalCents: number;
+  items: { nameSnapshot: string; quantity: number; unitPriceCents: number }[];
+  vouchers: { code: string; productName: string }[];
+}
+
+export async function sendOrderPaidEmails(input: OrderEmailInput): Promise<void> {
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY nie ustawiony — pomijam wysyłkę e-maili o zamówieniu.");
+    return;
+  }
+
+  const itemLines = input.items.map(
+    (i) => `${i.quantity} × ${i.nameSnapshot} — ${formatPln(i.unitPriceCents * i.quantity)}`
+  );
+  const voucherLines = input.vouchers.map((v) => `${v.productName}: kod ${v.code}`);
+  const deliveryLine =
+    input.deliveryMethod === "COURIER"
+      ? `Dostawa kurierem na adres: ${input.shippingAddress ?? "—"}`
+      : "Odbiór osobisty w pracowni NURT";
+
+  try {
+    if (ADMIN_EMAIL) {
+      await resend.emails.send({
+        from: FROM,
+        to: ADMIN_EMAIL,
+        replyTo: input.customerEmail,
+        subject: `Nowe opłacone zamówienie — ${input.customerName}`,
+        text: [
+          `Klient: ${input.customerName} <${input.customerEmail}>`,
+          deliveryLine,
+          "",
+          "Pozycje:",
+          ...itemLines,
+          "",
+          `Razem: ${formatPln(input.totalCents)}`,
+          voucherLines.length ? "" : "",
+          ...(voucherLines.length ? ["Wygenerowane vouchery:", ...voucherLines] : []),
+        ].join("\n"),
+      });
+    }
+
+    await resend.emails.send({
+      from: FROM,
+      to: input.customerEmail,
+      subject: "Potwierdzenie zamówienia — NURT Sklep",
+      text: [
+        `Cześć ${input.customerName},`,
+        "",
+        "Dziękujemy za zamówienie w sklepie NURT! Płatność została zaksięgowana.",
+        "",
+        "Zamówienie:",
+        ...itemLines,
+        "",
+        `Razem: ${formatPln(input.totalCents)}`,
+        deliveryLine,
+        ...(voucherLines.length
+          ? ["", "Twoje kody voucherów:", ...voucherLines, "", "Kod podajesz przy zapisie na warsztat na stronie /grafik."]
+          : []),
+        "",
+        "Do zobaczenia,",
+        "Zespół NURT",
+      ].join("\n"),
+    });
+  } catch (error) {
+    console.error("[email] Błąd podczas wysyłki potwierdzenia zamówienia:", error);
+  }
+}
+
 function formatSessionDate(date: Date): string {
   return new Intl.DateTimeFormat("pl-PL", {
     weekday: "long", day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit",

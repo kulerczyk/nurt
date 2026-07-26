@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { CartProvider } from "@/components/shop/CartProvider";
 import { getAllWorkshops } from "@/lib/workshops";
 
 export const metadata: Metadata = {
@@ -27,9 +28,11 @@ export default async function SiteLayout({
   return (
     <html lang="pl">
       <body className="min-h-screen flex flex-col bg-white">
-        <Navbar workshops={navWorkshops} />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Navbar workshops={navWorkshops} />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

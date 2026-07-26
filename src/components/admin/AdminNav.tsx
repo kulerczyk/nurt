@@ -10,6 +10,8 @@ interface Props {
 const links = [
   { href: "/admin", label: "Warsztaty" },
   { href: "/admin/grafik", label: "Grafik" },
+  { href: "/admin/produkty", label: "Produkty" },
+  { href: "/admin/zamowienia", label: "Zamówienia" },
   { href: "/admin/wiadomosci", label: "Wiadomości" },
 ];
 
@@ -21,7 +23,9 @@ export default function AdminNav({ newInquiriesCount }: Props) {
       {links.map((link) => {
         const active =
           pathname === link.href ||
-          (link.href === "/admin" && pathname.startsWith("/admin/warsztaty"));
+          (link.href === "/admin" && pathname.startsWith("/admin/warsztaty")) ||
+          (link.href === "/admin/produkty" && pathname.startsWith("/admin/produkty")) ||
+          (link.href === "/admin/zamowienia" && pathname.startsWith("/admin/zamowienia"));
         return (
           <Link
             key={link.href}
