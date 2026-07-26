@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getAllWorkshops } from "@/lib/workshops";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

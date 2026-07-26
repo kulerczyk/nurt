@@ -2,7 +2,7 @@
 
 import { useActionState, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { submitBooking, type BookingFormState } from "@/app/grafik/actions";
+import { submitBooking, type BookingFormState } from "@/app/(site)/grafik/actions";
 
 const inputClasses =
   "w-full px-4 py-2.5 rounded-2xl border border-heather-200 text-sm bg-white " +

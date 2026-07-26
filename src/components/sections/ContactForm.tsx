@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState, useEffect } from "react";
-import { submitInquiry, type InquiryFormState } from "@/app/kontakt/actions";
+import { submitInquiry, type InquiryFormState } from "@/app/(site)/kontakt/actions";
 
 const budgetOptions = [
   { value: "", label: "Wybierz zakres (opcjonalnie)" },
